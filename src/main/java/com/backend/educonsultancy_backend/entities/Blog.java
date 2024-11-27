@@ -91,7 +91,7 @@ public class Blog {
 
     //=====================================================================
 
-    @Column(nullable = false, length = 200)
+    @Column(nullable = false)
     @NotBlank(message = "Title is mandatory")
     private String title;  // Blog title
 
@@ -109,7 +109,7 @@ public class Blog {
 
     private LocalDateTime updatedAt;
 
-    @Column(nullable = false)
+//    @Column(nullable = false)
     @NotBlank(message = "Blog image is mandatory")
     private String blogImage;  // Blog image URL
 
