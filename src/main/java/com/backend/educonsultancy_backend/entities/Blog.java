@@ -96,7 +96,7 @@ public class Blog {
     private String title;  // Blog title
 
     @Lob
-    @Column(nullable = false)
+    @Column(nullable = false, columnDefinition = "LONGTEXT")
     @NotBlank(message = "Content is mandatory")
     private String content;  // Content of the blog (can be large, so using @Lob)
 

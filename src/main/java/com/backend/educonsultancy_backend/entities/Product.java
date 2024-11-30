@@ -20,7 +20,7 @@ public class Product {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer productId;
 
-    @Column(nullable = false,length = 200)
+    @Column(nullable = false)
     @NotBlank(message = "Title is mandatory")
     private String title;
 
