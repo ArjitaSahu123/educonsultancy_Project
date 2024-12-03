@@ -24,7 +24,8 @@ public class Product {
     @NotBlank(message = "Title is mandatory")
     private String title;
 
-    @Column(nullable = false)
+    @Lob
+    @Column(name = "description", nullable = false, columnDefinition = "LONGTEXT")
     @NotBlank(message = "Description is mandatory")
     private String description;
 

@@ -14,7 +14,7 @@ public class UserOrder {
     private Integer orderId;
     private String name;
     private String email;
-    private String phno;
+    private String phone;
     private String course;
     private Integer amount;
     private String orderStatus;
