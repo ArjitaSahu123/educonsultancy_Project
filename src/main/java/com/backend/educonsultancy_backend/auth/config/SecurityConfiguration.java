@@ -58,7 +58,6 @@ public class SecurityConfiguration {
     }
 }
 //package com.backend.educonsultancy_backend.auth.config;
-//
 //import com.backend.educonsultancy_backend.auth.services.AuthFilterService;
 //import lombok.RequiredArgsConstructor;
 //import org.springframework.context.annotation.Bean;
