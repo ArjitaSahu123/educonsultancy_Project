@@ -94,7 +94,6 @@ public class SecurityConfiguration {
 //                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
 //                .authenticationProvider(authenticationProvider)
 //                .addFilterBefore(authFilterService, UsernamePasswordAuthenticationFilter.class);
-//
 //        return http.build();
 //    }
 //}
