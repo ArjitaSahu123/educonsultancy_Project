@@ -33,6 +33,13 @@ public class FeedbackController {
         return new ResponseEntity<>(feedbacks, HttpStatus.OK);
     }
 
+    // Get all feedbacks related to a particular user ID
+    @GetMapping("/user/{userId}")
+    public ResponseEntity<List<Feedback>> getFeedbacksByUserId(@PathVariable("userId") Long userId) {
+        List<Feedback> feedbacks = feedbackService.getFeedbacksByUserId(userId);
+        return new ResponseEntity<>(feedbacks, HttpStatus.OK);
+    }
+
     // Get a feedback by ID
     @GetMapping("/{id}")
     public ResponseEntity<Feedback> getFeedbackById(@PathVariable("id") Long feedbackId) {

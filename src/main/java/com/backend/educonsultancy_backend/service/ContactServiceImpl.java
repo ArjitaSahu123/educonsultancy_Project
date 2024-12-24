@@ -80,4 +80,11 @@ public class ContactServiceImpl implements ContactService{
 
         contactRepository.delete(contact);
     }
+
+    @Override
+    public List<Contact> getContactsByUserId(Long userId) {
+        // Fetch contacts by userId
+        return contactRepository.findByUser_UserId(userId);
+    }
+
 }

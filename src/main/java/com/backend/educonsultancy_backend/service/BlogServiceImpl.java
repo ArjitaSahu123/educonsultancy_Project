@@ -1,141 +1,7 @@
-//package com.backend.educonsultancy_backend.service;
-//
-//import com.backend.educonsultancy_backend.dto.BlogDto;
-//import com.backend.educonsultancy_backend.entities.Blog;
-//import com.backend.educonsultancy_backend.exceptions.FileExistsException;
-//import com.backend.educonsultancy_backend.exceptions.BlogNotFoundException;
-//import com.backend.educonsultancy_backend.repositories.BlogRepository;
-//import org.springframework.beans.factory.annotation.Value;
-//import org.springframework.stereotype.Service;
-//import org.springframework.web.multipart.MultipartFile;
-//
-//import java.io.File;
-//import java.io.IOException;
-//import java.nio.file.Files;
-//import java.nio.file.Paths;
-//import java.time.LocalDateTime;
-//import java.util.ArrayList;
-//import java.util.List;
-//
-//@Service
-//public class BlogServiceImpl implements BlogService {
-//
-//    private final BlogRepository blogRepository;
-//    private final ProductFileService fileService;
-//
-//    @Value("${project.blog}")
-//    private String path;
-//
-//    @Value("${base.url}")
-//    private String baseUrl;
-//
-//    public BlogServiceImpl(BlogRepository blogRepository, ProductFileService fileService) {
-//        this.blogRepository = blogRepository;
-//        this.fileService = fileService;
-//    }
-//
-//    @Override
-//    public BlogDto addBlog(BlogDto blogDto, MultipartFile file) throws IOException {
-//        if (Files.exists(Paths.get(path + File.separator + file.getOriginalFilename()))) {
-//            throw new FileExistsException("File already exists! Please use a different file.");
-//        }
-//        String uploadedFileName = fileService.uploadFile(path, file);
-//
-//        blogDto.setBlogImage(uploadedFileName);
-//        blogDto.setCreatedAt(LocalDateTime.now());
-//        blogDto.setUpdatedAt(LocalDateTime.now());
-//
-//        Blog blog = mapToEntity(blogDto);
-//        Blog savedBlog = blogRepository.save(blog);
-//
-//        String blogUrl = baseUrl + "/blog/file/" + uploadedFileName;
-//
-//        return mapToDto(savedBlog, blogUrl);
-//    }
-//
-//    @Override
-//    public BlogDto getBlog(Integer blogId) {
-//        Blog blog = blogRepository.findById(blogId)
-//                .orElseThrow(() -> new BlogNotFoundException("Blog not found with id = " + blogId));
-//
-//        String blogUrl = baseUrl + "/blog/file/" + blog.getBlogImage();
-//        return mapToDto(blog, blogUrl);
-//    }
-//
-//    @Override
-//    public List<BlogDto> getAllBlogs() {
-//        List<Blog> blogs = blogRepository.findAll();
-//        List<BlogDto> blogDtos = new ArrayList<>();
-//        for (Blog blog : blogs) {
-//            String blogUrl = baseUrl + "/blog/file/" + blog.getBlogImage();
-//            blogDtos.add(mapToDto(blog, blogUrl));
-//        }
-//        return blogDtos;
-//    }
-//
-//    @Override
-//    public BlogDto updateBlog(Integer blogId, BlogDto blogDto, MultipartFile file) throws IOException {
-//        Blog existingBlog = blogRepository.findById(blogId)
-//                .orElseThrow(() -> new BlogNotFoundException("Blog not found with id = " + blogId));
-//
-//        String fileName = existingBlog.getBlogImage();
-//        if (file != null && !file.isEmpty()) {
-//            Files.deleteIfExists(Paths.get(path + File.separator + fileName));
-//            fileName = fileService.uploadFile(path, file);
-//        }
-//
-//        blogDto.setBlogImage(fileName);
-//        blogDto.setUpdatedAt(LocalDateTime.now());
-//
-//        Blog updatedBlog = blogRepository.save(mapToEntity(blogDto));
-//
-//        String blogUrl = baseUrl + "/blog/file/" + fileName;
-//        return mapToDto(updatedBlog, blogUrl);
-//    }
-//
-//    @Override
-//    public String deleteBlog(Integer blogId) throws IOException {
-//        Blog blog = blogRepository.findById(blogId)
-//                .orElseThrow(() -> new BlogNotFoundException("Blog not found with id = " + blogId));
-//
-//        Files.deleteIfExists(Paths.get(path + File.separator + blog.getBlogImage()));
-//        blogRepository.delete(blog);
-//
-//        return "Blog deleted with id = " + blogId;
-//    }
-//
-//    private Blog mapToEntity(BlogDto blogDto) {
-//        return new Blog(
-//                blogDto.getBlogId(),
-//                blogDto.getUserId(),
-//                blogDto.getTitle(),
-//                blogDto.getContent(),
-//                blogDto.getCategory(),
-//                blogDto.getCreatedAt(),
-//                blogDto.getUpdatedAt(),
-//                blogDto.getBlogImage()
-//        );
-//    }
-//
-//    private BlogDto mapToDto(Blog blog, String blogUrl) {
-//        return new BlogDto(
-//                blog.getBlogId(),
-//                blog.getUserId(),
-//                blog.getTitle(),
-//                blog.getContent(),
-//                blog.getCategory(),
-//                blog.getCreatedAt(),
-//                blog.getUpdatedAt(),
-//                blog.getBlogImage(),
-//                blogUrl
-//        );
-//    }
-//}
-
-
-
 package com.backend.educonsultancy_backend.service;
 
+import com.backend.educonsultancy_backend.auth.entities.User;
+import com.backend.educonsultancy_backend.auth.respositories.UserRepository;
 import com.backend.educonsultancy_backend.dto.BlogDto;
 import com.backend.educonsultancy_backend.entities.Blog;
 import com.backend.educonsultancy_backend.exceptions.BlogNotFoundException;
@@ -152,6 +18,7 @@ import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class BlogServiceImpl implements BlogService{
@@ -159,6 +26,7 @@ public class BlogServiceImpl implements BlogService{
     private final BlogRepository blogRepository;
 
     private final BlogFileService blogFileService;
+
 
     @Value("${project.blog}")
     private String path;
@@ -259,6 +127,7 @@ public class BlogServiceImpl implements BlogService{
         return blogDtos;
     }
 
+
     @Override
     public BlogDto updateBlog(Integer blogId, BlogDto blogDto, MultipartFile file) throws IOException {
         // Retrieve the existing blog from the repository
@@ -325,3 +194,4 @@ public class BlogServiceImpl implements BlogService{
         return "Blog deleted with id = " + id;
     }
 }
+

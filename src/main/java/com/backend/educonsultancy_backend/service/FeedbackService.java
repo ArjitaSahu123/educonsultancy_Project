@@ -12,4 +12,6 @@ public interface FeedbackService {
     Optional<Feedback> getFeedbackById(Long feedbackId);  // Get a feedback by ID
     Feedback updateFeedback(Long feedbackId, FeedbackDto feedbackDto);  // Update a feedback
     void deleteFeedback(Long feedbackId);  // Delete a feedback
+
+    List<Feedback> getFeedbacksByUserId(Long userId);  // Get feedbacks by user ID
 }

@@ -23,7 +23,12 @@ public class UserController {
         return ResponseEntity.ok(userService.getAllUsers());
     }
 
-    @PreAuthorize("hasAuthority('ADMIN')")
+//    @PreAuthorize("hasAuthority('ADMIN')")
+//    @GetMapping("/{id}")
+//    public ResponseEntity<User> getUserById(@PathVariable Integer id) {
+//        return ResponseEntity.ok(userService.getUserById(id));
+//    }
+
     @GetMapping("/{id}")
     public ResponseEntity<User> getUserById(@PathVariable Integer id) {
         return ResponseEntity.ok(userService.getUserById(id));

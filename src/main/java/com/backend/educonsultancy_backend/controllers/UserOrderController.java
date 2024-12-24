@@ -1,7 +1,9 @@
 package com.backend.educonsultancy_backend.controllers;
 
 import com.backend.educonsultancy_backend.entities.UserOrder;
+import com.backend.educonsultancy_backend.service.EmailService;
 import com.backend.educonsultancy_backend.service.UserOrderService;
+import jakarta.mail.MessagingException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
@@ -20,6 +22,11 @@ public class UserOrderController {
 
     @Autowired
     private UserOrderService service;
+
+    //======== NEW CODE ADDED ===========
+    @Autowired
+    private EmailService emailService;
+    //====================================
 
     @GetMapping("/")
     public String init(){
@@ -52,6 +59,12 @@ public class UserOrderController {
         }
     }
 
+    //    @PostMapping("/handle-payment-callback")
+    //    public String handlePaymentCallback(@RequestParam Map<String,String> respPayLoad){
+    //        System.out.println(respPayLoad);
+    //        service.updateOrder(respPayLoad);
+    //        return "redirect:" + callbackUrl;
+    //    }
     @PostMapping("/handle-payment-callback")
     public String handlePaymentCallback(@RequestParam Map<String, String> respPayLoad) {
         // Log the callback payload for debugging
@@ -63,10 +76,17 @@ public class UserOrderController {
         // Redirect after processing
         return "redirect:" + callbackUrl;
     }
-//    @PostMapping("/handle-payment-callback")
-//    public String handlePaymentCallback(@RequestParam Map<String,String> respPayLoad){
-//        System.out.println(respPayLoad);
-//        service.updateOrder(respPayLoad);
-//        return "redirect:" + callbackUrl;
-//    }
+
+    @GetMapping("api/orders/user/{email}")
+    @ResponseBody
+    public ResponseEntity<List<UserOrder>> getOrdersByEmail(@PathVariable String email) {
+        List<UserOrder> orders = service.getOrdersByEmail(email);
+        if (orders != null && !orders.isEmpty()) {
+            return new ResponseEntity<>(orders, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(orders, HttpStatus.OK);
+        }
+    }
+
+
 }

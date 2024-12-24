@@ -63,4 +63,14 @@ public class ContactController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
     }
+
+    // Get contacts by user ID
+    @GetMapping("/user/{userId}")
+    public ResponseEntity<List<Contact>> getContactsByUserId(@PathVariable("userId") Long userId) {
+        List<Contact> contacts = contactService.getContactsByUserId(userId);
+        if (contacts.isEmpty()) {
+            return new ResponseEntity<>(contacts, HttpStatus.OK);
+        }
+        return new ResponseEntity<>(contacts, HttpStatus.OK);
+    }
 }

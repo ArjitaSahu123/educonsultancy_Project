@@ -68,6 +68,7 @@ public class User implements UserDetails {
     private ForgotPassword forgotPassword;
     //===================================================
 
+
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private UserRole role;

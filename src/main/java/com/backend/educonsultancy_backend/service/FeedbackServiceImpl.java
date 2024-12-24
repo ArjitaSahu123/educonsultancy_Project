@@ -80,4 +80,10 @@ public class FeedbackServiceImpl implements FeedbackService {
 
         feedbackRepository.delete(feedback);
     }
+
+    @Override
+    public List<Feedback> getFeedbacksByUserId(Long userId) {
+        // Fetch feedbacks associated with the user ID
+        return feedbackRepository.findByUser_UserId(userId);
+    }
 }
